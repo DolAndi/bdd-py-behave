@@ -1,16 +1,8 @@
-# language: pt
+# Arquivo: uol_esporte.feature
 
-Funcionalidade: Verificação de manchete de notícias esportivas
-  Como um usuário do UOL Esportes
-  Eu quero clicar em uma notícia
-  Para que eu possa ver a página da notícia com a mesma manchete
+Funcionalidade: Verificar redirecionamento de notícia no site UOL Esporte
 
-  Esquema do Cenário: Usuário clica em uma notícia e é redirecionado para a página da notícia com a manchete correspondente
-    Dado que o usuário esteja na página principal de esportes do UOL
-    Quando o usuário clica na notícia com a manchete "<manchete>"
-    Então o usuário é redirecionado para a página da notícia
-    E a manchete "<manchete>" é exibida na página da notícia
-
-    Exemplos:
-    | manchete                                                                    |
-    | Enfim, reconhecimento: Argentina se rende a Cano após sucesso no Fluminense |
+  Cenário: Verificar redirecionamento de notícia
+    Dado que estou na página inicial do site "https://www.uol.com.br/esporte/"
+    Quando eu clico em uma notícia
+    Então eu deveria ser redirecionado para uma página que mostra a mesma manchete
