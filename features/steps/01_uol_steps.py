@@ -1,4 +1,4 @@
-from behave import given, when
+from behave import given, when, then
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
@@ -19,4 +19,3 @@ def step_impl(context):
 @then('a manchete "{headline}" é exibida na página da notícia')
 def step_impl(context, headline):
     assert headline in context.browser.page_source
-    context.browser.quit()
