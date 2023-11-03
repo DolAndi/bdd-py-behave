@@ -7,9 +7,9 @@ def open_page(context):
     context.browser = webdriver.Chrome()
     context.browser.get("https://www.uol.com.br/esporte/")
 
-@when('o usuário clica na notícia com a manchete "{headline}"')
-def user_action(context, headline):
-    news_article = context.browser.find_element(By.XPATH, f"//*[contains(text(),'{headline}')]")
+@when('o usuário clica na manchete principal')
+def user_action(context):
+    news_article = context.browser.find_element(By.XPATH, f"//*[contains(@class, 'positioning-bottom')]")
     news_article.click()
 
 @then('o usuário é redirecionado para a página da notícia')
@@ -17,5 +17,6 @@ def validation_resultUrl(context):
     assert context.browser.current_url != "https://www.uol.com.br/esporte/"
 
 @then('a manchete "{headline}" é exibida na página da notícia')
-def validation_result(context, headline):
-    assert headline in context.browser.page_source
+def validation_result(context):
+    news_article = context.browser.find_element(By.XPATH, f"//h1[contains(@class, 'title')]")
+    assert news_article in context.browser.page_source
