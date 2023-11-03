@@ -5,12 +5,12 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 @given('que estou na página inicial do Magazine Luiza')
-def passo_dado_pagina_inicial(context):
+def open_page(context):
     context.browser = webdriver.Chrome()
     context.browser.get('https://www.magazineluiza.com.br/')
 
 @when('eu pesquiso por "{produto}" na barra de busca')
-def passo_quando_pesquisar(context, produto):
+def search_product(context, produto):
     wait = WebDriverWait(context.browser, 10)
     search_bar = wait.until(EC.visibility_of_element_located((By.XPATH, "//*[contains(@placeholder, 'Busca no Magalu')]")))
     search_bar.send_keys(produto)
@@ -18,5 +18,5 @@ def passo_quando_pesquisar(context, produto):
     search_button.click()
 
 @then('eu vejo resultados de busca relacionados ao "{produto}"')
-def passo_entao_resultados(context, produto):
+def validation_result(context, produto):
     assert produto in context.browser.page_source
