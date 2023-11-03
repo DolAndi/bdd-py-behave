@@ -1,31 +1,21 @@
-from behave import given, when, then
+from behave import given, when
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 
-@given('que eu estou na página inicial do site "{url}"')
-def step_open_browser(context, url):
-    context.driver = webdriver.Chrome()  # Certifique-se de que o ChromeDriver esteja instalado e no PATH.
-    context.driver.get(url)
+@given('que o usuário esteja na página principal de esportes do UOL')
+def step_impl(context):
+    context.browser = webdriver.Chrome()
+    context.browser.get("https://www.uol.com.br/esporte/")
 
-@when('eu clico em uma notícia')
-def step_click_news(context):
-    # Substitua 'noticia_xpath' pelo seletor real da notícia no site.
-    noticia_xpath = "//a[contains(@class, 'noticia')]"
-    context.driver.find_element(By.XPATH, noticia_xpath).click()
+@when('o usuário clica na notícia com a manchete "{headline}"')
+def step_impl(context, headline):
+    news_article = context.browser.find_element(By.XPATH, f"//*[contains(text(),'{headline}')]")
+    news_article.click()
 
-@then('eu sou direcionado para uma página com a mesma manchete')
-def step_verify_redirect(context):
-    # Substitua 'manchete_xpath' pelo seletor real da manchete na página de destino.
-    manchete_xpath = "//h1[contains(@class, 'manchete')]"
-    manchete_inicial = context.driver.find_element(By.XPATH, manchete_xpath).text
+@then('o usuário é redirecionado para a página da notícia')
+def step_impl(context):
+    assert context.browser.current_url != "https://www.uol.com.br/esporte/"
 
-    context.driver.back()  # Voltar para a página inicial.
-    
-    # Clique em outra notícia e verifique a manchete na página de destino.
-    context.driver.find_element(By.XPATH, noticia_xpath).click()
-    manchete_atual = context.driver.find_element(By.XPATH, manchete_xpath).text
-    
-    assert manchete_inicial == manchete_atual
-
-    # Feche o navegador após o teste.
-    context.driver.quit()
+@then('a manchete "{headline}" é exibida na página da notícia')
+def step_impl(context, headline):
+    assert headline in context.browser.page_source
